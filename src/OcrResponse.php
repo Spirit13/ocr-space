@@ -25,8 +25,8 @@ class OcrResponse
         $this->parsedResults = $this->jsonResponse->ParsedResults;
         $this->ocrExitCode = $this->jsonResponse->OCRExitCode;
         $this->isErroredOnProcessing = $this->jsonResponse->IsErroredOnProcessing;
-        $this->errorMessage = $this->jsonResponse->ErrorMessage ?: null;
-        $this->errorDetails = $this->jsonResponse->ErrorDetails ?: null;
+        $this->errorMessage = isset($this->jsonResponse->ErrorMessage) ? $this->jsonResponse->ErrorMessage : null;
+        $this->errorDetails = isset($this->jsonResponse->ErrorDetails) ? $this->jsonResponse->ErrorDetails : null;
         $this->processingTime = $this->jsonResponse->ProcessingTimeInMilliseconds;
         $this->searchablePDFURL= $this->jsonResponse->SearchablePDFURL;
     }

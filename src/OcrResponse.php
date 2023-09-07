@@ -7,9 +7,12 @@ class OcrResponse
 
     protected $ocrResponseItem = null;
     protected $parsedResults = [];
+    protected $ocrExitCode = null;
+    protected $isErroredOnProcessing = false;
     protected $errorMessage = null;
     protected $errorDetails = null;
     protected $processingTime = null;
+    protected $searchablePDFURL = '';
 
     public function __construct($jsonResponse)
     {
@@ -21,9 +24,11 @@ class OcrResponse
     {
         $this->parsedResults = $this->jsonResponse->ParsedResults;
         $this->ocrExitCode = $this->jsonResponse->OCRExitCode;
-        $this->errorMessage = $this->jsonResponse->ErrorMessage;
-        $this->errorDetails = $this->jsonResponse->ErrorDetails;
+        $this->isErroredOnProcessing = $this->jsonResponse->IsErroredOnProcessing;
+        $this->errorMessage = $this->jsonResponse->ErrorMessage ?: null;
+        $this->errorDetails = $this->jsonResponse->ErrorDetails ?: null;
         $this->processingTime = $this->jsonResponse->ProcessingTimeInMilliseconds;
+        $this->searchablePDFURL= $this->jsonResponse->SearchablePDFURL;
     }
 
 

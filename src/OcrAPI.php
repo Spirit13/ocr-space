@@ -70,7 +70,7 @@ class OcrAPI
         }
         $url = $this->url == '' ? 'https://api.ocr.space/parse/image' : $this->url;
         try {
-            $response = $client->request('POST', $url, ['headers' => $headers, 'multipart' => $multipart, 'form_params' => $options]);
+            $response = $client->request('POST', $url, ['headers' => $headers, 'multipart' => $multipart]);
         } catch (\Exception $e) {
             throw new OcrException('Error connecting to service URL: ' . $url, 0, $e);
         }

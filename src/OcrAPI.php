@@ -65,7 +65,9 @@ class OcrAPI
                 [ 'name' => 'language', 'contents' => 'eng' ],
                 [ 'name' => $fldName, 'contents' => $fldValue ]
             ];
-
+       foreach ($options as $option => $value) {
+            $multipart[] = [ 'name' => $option, 'contents' => $value ];
+        }
         $url = $this->url == '' ? 'https://api.ocr.space/parse/image' : $this->url;
         try {
             $response = $client->request('POST', $url, ['headers' => $headers, 'multipart' => $multipart, 'form_params' => $options]);

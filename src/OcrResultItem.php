@@ -43,6 +43,10 @@ class OcrResultItem
         return $this->errorDetails;
     }
 
+    public function getItem() {
+        return $this->item;
+    }
+    
     public function __toString()
     {
         return $this->text;

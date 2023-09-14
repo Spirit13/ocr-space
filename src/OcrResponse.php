@@ -68,7 +68,9 @@ class OcrResponse
         return $this->processingTime;
     }
 
-
+    public function getJsonResponse() {
+        return $this->jsonResponse;
+    }
     public function __toString()
     {
         return 'OCR.space Response: (JSON)' . json_encode($this->jsonResponse);

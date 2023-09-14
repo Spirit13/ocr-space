@@ -22,13 +22,13 @@ class OcrResponse
 
     protected function parseResponse()
     {
-        $this->parsedResults = $this->jsonResponse->ParsedResults;
-        $this->ocrExitCode = $this->jsonResponse->OCRExitCode;
-        $this->isErroredOnProcessing = $this->jsonResponse->IsErroredOnProcessing;
+        $this->parsedResults = isset($this->jsonResponse->ParsedResults) ? $this->jsonResponse->ParsedResults : null;
+        $this->ocrExitCode = isset($this->jsonResponse->OCRExitCode) ? $this->jsonResponse->OCRExitCode : null;
+        $this->isErroredOnProcessing = isset($this->jsonResponse->IsErroredOnProcessing) ? $this->jsonResponse->IsErroredOnProcessing : null;
         $this->errorMessage = isset($this->jsonResponse->ErrorMessage) ? $this->jsonResponse->ErrorMessage : null;
         $this->errorDetails = isset($this->jsonResponse->ErrorDetails) ? $this->jsonResponse->ErrorDetails : null;
-        $this->processingTime = $this->jsonResponse->ProcessingTimeInMilliseconds;
-        $this->searchablePDFURL= $this->jsonResponse->SearchablePDFURL;
+        $this->processingTime = isset($this->jsonResponse->ProcessingTimeInMilliseconds) ? $this->jsonResponse->ProcessingTimeInMilliseconds : null;
+        $this->searchablePDFURL= isset($this->jsonResponse->SearchablePDFURL) ? $this->jsonResponse->SearchablePDFURL : null;
     }
 
 

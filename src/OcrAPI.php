@@ -9,6 +9,7 @@ class OcrAPI
     private $key;
     private $url;
     private $lastApiCall;
+    private $guzzleOptions = [];
     
     public function __construct($apiKey, $url = '')
     {
@@ -36,6 +37,10 @@ class OcrAPI
         $this->url = $url;
     }
 
+    public function setGuzzleOptions($options) {
+        $this->guzzleOptions= $options;
+    }
+    
     public function parseImageFile($imgFile, $options = [])
     {
         return $this->parseImage('file', fopen($imgFile, 'r'), $options);
@@ -58,7 +63,7 @@ class OcrAPI
 
     protected function parseImage($fldName, $fldValue, $options = [])
     {
-        $client = new HttpClient();
+        $client = new HttpClient($this->guzzleOptions);
 
         $lang = isset($options['lang']) ? $options['lang'] : 'eng';
         $headers = [ 'apikey' => $this->key ];

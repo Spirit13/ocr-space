@@ -8,6 +8,7 @@ class OcrAPI
 {
     private $key;
     private $url;
+    private $lastApiCall;
     
     public function __construct($apiKey, $url = '')
     {
@@ -70,9 +71,18 @@ class OcrAPI
         }
         $url = $this->url == '' ? 'https://api.ocr.space/parse/image' : $this->url;
         try {
+            $curTimestamp = time();
+            if ($this->lastApiCall != null && $this->lastApiCall + 20 > $curTimestamp) {
+                sleep($this->lastApiCall + 20 - $curTimestamp);
+            }
+            $this->lastApiCall = time();
             $response = $client->request('POST', $url, ['headers' => $headers, 'multipart' => $multipart]);
         } catch (\Exception $e) {
-            throw new OcrException('Error connecting to service URL: ' . $url, 0, $e);
+            if (preg_match("/maximum ([0-9]{1,}) number of times within ([0-9]{1,} seconds)/", $e->getMessage(), $matches) ) {
+                throw new OcrLimitException($e->getMessage(), $e->getCode(), $e);
+            } else {
+                throw new OcrException('Error connecting to service URL: ' . $url, 0, $e);
+            }
         }
 
         $code = $response->getStatusCode();

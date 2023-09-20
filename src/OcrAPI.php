@@ -8,7 +8,7 @@ class OcrAPI
 {
     private $key;
     private $url;
-    private $lastApiCall;
+    private $requestAt;
     private $guzzleOptions = [];
     
     public function __construct($apiKey, $url = '')
@@ -39,6 +39,11 @@ class OcrAPI
 
     public function setGuzzleOptions($options) {
         $this->guzzleOptions= $options;
+    }
+
+    public function getRequestAt()
+    {
+        return $this->requestAt;
     }
     
     public function parseImageFile($imgFile, $options = [])
@@ -76,11 +81,7 @@ class OcrAPI
         }
         $url = $this->url == '' ? 'https://api.ocr.space/parse/image' : $this->url;
         try {
-            $curTimestamp = time();
-            if ($this->lastApiCall != null && $this->lastApiCall + 20 > $curTimestamp) {
-                sleep($this->lastApiCall + 20 - $curTimestamp);
-            }
-            $this->lastApiCall = time();
+            $this->requestAt = time();
             $response = $client->request('POST', $url, ['headers' => $headers, 'multipart' => $multipart]);
         } catch (\Exception $e) {
             if (preg_match("/maximum ([0-9]{1,}) number of times within ([0-9]{1,} seconds)/", $e->getMessage(), $matches) ) {
